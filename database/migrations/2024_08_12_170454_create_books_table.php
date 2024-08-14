@@ -16,7 +16,8 @@ return new class extends Migration
 
             $table->string('title');
             $table->string('author');
-            $table->timestamps();
+            
+            $table->timestamps(); # cria uma coluna created_at e updated_at para trabalhar com o tempo(ano, mês, dia, hora e segundos).
         });
     }
 
