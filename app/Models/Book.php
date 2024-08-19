@@ -26,15 +26,36 @@ class Book extends Model
         # Retorna o objeto $query que chama o método where para verificar as colunas de Titulo usando o operador Like(Retorna o titulo com alguma string a mais).
     }
 
-    public function scopePopular($query): Builder
+    public function scopePopular(Builder $query, $from = null, $to = null): Builder|QueryBuilder
     {
-        return $query->withCount('reviews')
-            ->orderBy('reviews_count', 'desc');
+        return $query->withCount([
+            'reviews' => fn(Builder $q) => $this->dateRangerFilter($q, $from, $to)
+        ])
+            ->orderBy('reviews_count','desc');
+            
     }
 
-    public function scopeHighest(Builder $query): Builder
+    public function scopeHighestRated(Builder $query): Builder|QueryBuilder
     {
-        return $query->withAvg('reviews', 'rating')
+        return $query->withAvg([
+            'reviews' => fn(Builder $q) => $this->dateRangerFilter($q, $from, $to)
+        ], 'rating')
             ->orderBy('reviews_avg_rating', 'desc');
+    }
+
+    public function scopeMinReviews(Builder $query, int $minReviews): Builder|QueryBuilder
+    {
+        return $query->having('Review_count', '>=', $minReviews);
+    }
+
+    private function dateRangerFilter(Builder $query, $from = null, $to = null) 
+    {
+        if ($from && !$to){
+            $query->where('created_at', '>=', $from);
+        }elseif (!$from && $to) {
+            $query->where('created_at', '<=', $to);
+        }elseif ($from && $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        }
     }
 }
