@@ -4,11 +4,12 @@
     
 <h1 class="mb-10 text-2x1">Books</h1>
 
-<form method ="GET" action="{{ route('books.index') }}">
-  <input type="text" name="title" placeholder="Search by title"
-    value="{{ request('title') }}" class="input"/>
-  <button type="submit" class="btn">Search</button>
-  <a href="{{ route('books.index') }}">Clear</a>
+<form method ="GET" action="{{ route('books.index') }}" class="mb-4 flex items-center space-x-2"> {{--Este formulário está sendo enviado para a mesma rota que renderiza a página que tem o indice dos livros--}}
+  <input type="text" name="title" placeholder="Search by title" 
+    value="{{ request('title') }}" class="input h-10"/> {{-- O input pegará o nome do livro--}}
+    {{-- o value recupera o valor antigo se ele estiver sido enviado antes, solicitando com o request--}}
+  <button type="submit" class="btn h-10">Search</button>
+  <a href="{{ route('books.index') }}" class="btn h-10">Clear</a>
 </form>
 
 <ul>
@@ -18,8 +19,8 @@
         <div
           class="flex flex-wrap items-center justify-between">
           <div class="w-full flex-grow sm:w-auto">
-            <a href="#" class="book-title">Book Title</a>
-            <span class="book-author">by Piotr Jura</span>
+            <a href="{{ route('books.show', $book) }}" class="book-title">{{ $book->title }}</a>
+            <span class="book-author">{{ $book->author }}</span>
           </div>
           <div>
             <div class="book-rating">
@@ -33,6 +34,12 @@
   </div>
 </li>
     @empty
+      <li class=""mb-4>
+        <div class="empty-book-item">
+          <p class="empty-text">No books found</p>
+          <a href="{{ route('books.index') }}" class="reset-link">Reset Criteria</a>
+        </div>
+      </li>
     @endforelse
 </ul>
 
