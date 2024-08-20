@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request) # $request é o objeto instanciado da classe Request, que vai fazer a solicitação.
     {
-        $title = $request->input('title');
-        $books = Book::when(
-            $title, 
-            fn($query, $title) => $query->title($title)
+        $title = $request->input('title'); # a variavel titulo recebe os objeto request que chama o metodo de entrada input que tem como parâmetro o título.
+        
+        #o método when recebe algo como primeiro argumento. Neste caso, o title. Como segundo argumento ele tem uma função.
+        $books= Book::when( #Se o titulo Não for nulo ou não estiver vazio, ele executa a função passada como segundo argumento.
+            $title,  
+            fn($query, $title) => $query->title($title)  
         )
-            ->get();
-        return view('books.index', ['books' => $books]);
+            ->get();  #executa consultas
+            return view('books.index', ['books' => $books]);
     }
 
     public function create()
