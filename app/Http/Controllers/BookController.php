@@ -13,17 +13,17 @@ class BookController extends Controller
         $filter = $request->input('filter', ''); #o filtro recebe o metodo de solicitação request para verificar se ele foi especificado chamando o metodo de entrada input, passando filter como parametero.
 
         #o método when recebe algo como primeiro argumento. Neste caso, o title. Como segundo argumento ele tem uma função.
-        $books= Book::when( #Se o titulo Não for nulo ou não estiver vazio, ele executa a função passada como segundo argumento.
+        $books = Book::when( #Se o titulo Não for nulo ou não estiver vazio, ele executa a função passada como segundo argumento.
             $title,  
             fn($query, $title) => $query->title($title)  
         );
 
         $books = match($filter) 
         {
-            'popular_last_month' => $books->popularLastMonth(),
+            'popular_last_month' => $books->popularLastMonth(), 
             'popular_last_6months' => $books->popularLast6Months(),
-            'Highest_rated_last_month' => $books->HighestRatedLastMonth(),
-            'Highest_rated_last_6mount' => $books->HighestRatedLast6months(),
+            'highest_rated_last_month' => $books->highestRatedLastMonth(),
+            'highest_rated_last_6months' => $books->highestRatedLast6Months(),
             default => $books->latest()
         };
 

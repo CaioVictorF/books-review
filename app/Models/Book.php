@@ -70,24 +70,24 @@ class Book extends Model
     public function scopePopularLast6Months(Builder $query): Builder|QueryBuilder
     {   
         #retorna uma consulta que chama o metodo popular dos ultimos 6 meses
-        return $query->popular(now()->subMonth(6), now()) #para obter todos os livros populares dos ultimos 6 meses até o momento, é passado como parametro uma nova data e subtraído 6 meses dela usando o método 
-            ->highestRated(now()->subMonth(6), now()) #trará a classificação mais alta.
+        return $query->popular(now()->subMonths(6), now()) #para obter todos os livros populares dos ultimos 6 meses até o momento, é passado como parametro uma nova data e subtraído 6 meses dela usando o método 
+            ->highestRated(now()->subMonths(6), now()) #trará a classificação mais alta.
             ->minReviews(5); 
     }
 
     public function scopeHighestRatedLastMonth(Builder $query): Builder|QueryBuilder
     {   
         #retorna uma consulta que chama o metodo mais bem avaliado do mês passado
-        return $query->HighestRated(now()->subMonth(), now()) #para obter todos os livros mais bem avaliados do ultimo mês até o momento, é passado como parametro uma nova data e subtraído 1 mês dela usando o método 
-            ->highestRated(now()->subMonth(), now()) #trará a classificação mais alta.
+        return $query->highestRated(now()->subMonth(), now()) #para obter todos os livros mais bem avaliados do ultimo mês até o momento, é passado como parametro uma nova data e subtraído 1 mês dela usando o método 
+            ->popular(now()->subMonth(), now()) #trará a classificação mais alta.
             ->minReviews(2); #para não incluir os livros que tiveram apenas uma resenha.
     }
 
     public function scopeHighestRatedLast6Months(Builder $query): Builder|QueryBuilder
     {   
         #retorna uma consulta que chama o metodo mai bem avaliado dos ultimos 6 meses passado
-        return $query->HighestRated(now()->subMonths(6), now()) #para obter todos os livros mais bem avaliados dos ultimos 6 meses até o momento, é passado como parametro uma nova data e subtraído 1 mês dela usando o método 
-            ->highestRated(now()->subMonth(6), now()) #trará a classificação mais alta.
+        return $query->highestRated(now()->subMonths(6), now()) #para obter todos os livros mais bem avaliados dos ultimos 6 meses até o momento, é passado como parametro uma nova data e subtraído 1 mês dela usando o método 
+            ->popular(now()->subMonths(6), now()) #trará a classificação mais alta.
             ->minReviews(5); #para não incluir os livros que tiveram apenas uma resenha.
     }
 }
