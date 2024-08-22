@@ -14,7 +14,7 @@
 </form>
 
 <div class="filter-container mb-4 flex">
-  @php
+  @php  
     $filters = [
       '' => 'Recentes',
       'popular_last_month' => 'Mês passado',
@@ -24,11 +24,11 @@
     ];
   @endphp
 
-  @foreach($filters as $key => $label)
+  {{--Usando foreach para iterar os filtros--}}
+  @foreach($filters as $key => $label) {{--Filtro está usando o valor da chave e a chave, que basicamente é uma label--}}
     <a href="{{ route('books.index', [...request()->query(),'filter' => $key]) }}" 
-    class="{{ request('filter') === $key || (request('fiter') === null && $key === '')? 'filter-item-active' : 'filter-item'}}">
-      {{ $label }}
-    </a>
+    class="{{ request('filter') === $key || (request('fiter') === null && $key === '')? 'filter-item-active' : 'filter-item'}}"> {{--Filter item mostra os elementos na label--}}
+      {{ $label }}  
   @endforeach
 </div>
 
