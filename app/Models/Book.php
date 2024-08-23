@@ -26,14 +26,14 @@ class Book extends Model
         # Retorna o objeto $query que chama o método where para verificar as colunas de Titulo usando o operador Like(Retorna o titulo com alguma string a mais).
     }
 
-    public function scopesWithReviewsCount(Builder $query, $from = null, $to = null): Builder|QueryBuilder
+    public function scopeWithReviewsCount(Builder $query, $from = null, $to = null): Builder|QueryBuilder
     {
         return $query->withCount([
             'reviews' => fn(Builder $q) => $this->dateRangerFilter($q, $from, $to)
         ]);
     }
 
-    public function scopesWithAvgRating(Builder $query, $from = null, $to = null): Builder|QueryBuilder
+    public function scopeWithAvgRating(Builder $query, $from = null, $to = null): Builder|QueryBuilder
     {
         return $query->withAvg([
             'reviews' => fn(Builder $q) => $this->dateRangerFilter($q, $from, $to)
