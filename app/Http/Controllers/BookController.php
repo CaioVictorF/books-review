@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Cache;
 
 class BookController extends Controller
 {
@@ -53,7 +52,7 @@ class BookController extends Controller
             $cacheKey, 3600, 
             fn() => Book::with([
                 'reviews' => fn($query) => $query->latest()
-            ])->withAvgRating()->withReviewCount()->findOrFail($id)
+            ])->withAvgRating()->withReviewsCount()->findOrFail($id)
         );
 
         return view('books.show', ['book'=> $book]);
