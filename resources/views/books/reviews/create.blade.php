@@ -5,14 +5,14 @@
 
 <form method="POST" action="{{route('books.reviews.store', $book) }}">
     @csrf
-    <label for="review">Review</label>
+    <label for="review">Análise</label>
     <textarea name="review" id="review" required class="input mb-4"></textarea>
 
-    <label for="rating">Rating</label>
+    <label for="rating">Avaliar</label>
 
     <select name="rating" id="rating" class="input mb-4" required>
     <option value="">Selecione uma classificação</options>
-    @for($i = 1; $i < 5; $i++)
+    @for($i = 1; $i <= 5; $i++)
         <option value="{{ $i }}">{{ $i }}</option>
     @endfor
     </select>
